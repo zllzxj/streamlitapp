@@ -155,7 +155,7 @@ exp = shap.Explanation(sv.values[:,:,predicted_class],
                   data=predata.values, 
                   feature_names=predata.columns)
 
-fig = plt.figure(dpi=200)
+fig = plt.figure(figsize=(6, 9), dpi=200)
 shap.plots.waterfall(exp[predicted_class], show=False, max_display=15)
 plt.tight_layout()
 col3[2].pyplot(fig, use_container_width=True)
