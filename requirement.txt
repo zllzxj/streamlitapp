@@ -1,7 +1,7 @@
+joblib
 streamlit
 numpy
 pandas
 matplotlib
 xgboost
 shap
-joblib
