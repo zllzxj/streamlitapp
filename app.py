@@ -7,14 +7,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-from matplotlib.font_manager import FontManager
-import subprocess
-
-mpl_fonts = set(f.name for f in FontManager().ttflist)
-
-for f in sorted(mpl_fonts):
-    print('\t' + f)
-
 # 设置中文字体支持 - 统一设置字体配置
 plt.rcParams['font.family'] = 'SimHei'
 plt.rcParams['axes.unicode_minus'] = False
@@ -31,6 +23,9 @@ st.set_page_config(
     page_icon="⭕",
     layout="wide"
 )
+
+from matplotlib.font_manager import FontManager
+st.write(set(f.name for f in FontManager().ttflist))
 
 st.markdown('''
     <style>
