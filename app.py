@@ -7,6 +7,15 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+# 添加字体文件到 Matplotlib 的字体管理器  
+font_files = fm.findSystemFonts(fontpaths=['.'], fontext='ttf')  
+for font_file in font_files:  
+    fm.fontManager.addfont(font_file) 
+
+# 设置 Matplotlib 使用中文字体  
+plt.rcParams['font.family'] = ['SimHei']  # 替换为你实际使用的字体名称  
+plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+
 # 设置中文字体支持 - 统一设置字体配置
 plt.rcParams['font.family'] = 'SimHei'
 plt.rcParams['axes.unicode_minus'] = False
@@ -23,9 +32,6 @@ st.set_page_config(
     page_icon="⭕",
     layout="wide"
 )
-
-from matplotlib.font_manager import FontManager
-st.write(set(f.name for f in FontManager().ttflist))
 
 st.markdown('''
     <style>
