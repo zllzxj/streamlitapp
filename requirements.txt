@@ -5,4 +5,4 @@ numpy
 pandas
 matplotlib
 xgboost
-shap
+shap==0.46.0
