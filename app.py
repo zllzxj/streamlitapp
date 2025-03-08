@@ -166,19 +166,3 @@ st.markdown(f'''
     <div style="font-size: 20px; text-align: center; color: red; top: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; border: 1px solid red; padding: 1rem;">
     <span style="font-weight: bold;">温馨提示：</span>结果仅供临床参考，详情请咨询医师！！！
     </div>''', unsafe_allow_html=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
