@@ -84,7 +84,7 @@ data["皮损消退速度"] = PSXT[col1[4].selectbox("皮损消退速度", PSXT)]
 data["瘙痒评分"] = col1[0].number_input("瘙痒评分(分)", value=18.3, min_value=0.00, step=0.01)
 data["PASI评分"] = col1[1].number_input("PASI评分(分)", value=18.3, min_value=0.00, step=0.01)
 data["DLQI评分"] = col1[2].number_input("DLQI评分(分)", value=18.3, min_value=0.00, step=0.01)
-data["睡眠"] = SMQK[col1[3].selectbox("皮损进展情况", SMQK)]
+data["睡眠"] = SMQK[col1[3].selectbox("睡眠情况", SMQK)]
 data["中医证型"] = ZYLX[col1[4].selectbox("中医证型", ZYLX)]
 
 data["既往是否规律治疗"] = BOOL[col1[0].selectbox("既往是否规律治疗", BOOL)]
