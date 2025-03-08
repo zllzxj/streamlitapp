@@ -13,10 +13,6 @@ font_files = fm.findSystemFonts(fontpaths=['.'], fontext='ttf')
 for font_file in font_files:  
     fm.fontManager.addfont(font_file) 
 
-# 设置 Matplotlib 使用中文字体  
-plt.rcParams['font.family'] = ['SimHei']  # 替换为你实际使用的字体名称  
-plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
-
 # 设置中文字体支持 - 统一设置字体配置
 plt.rcParams['font.family'] = 'SimHei'
 plt.rcParams['axes.unicode_minus'] = False
@@ -161,7 +157,7 @@ exp = shap.Explanation(sv.values[:,:,predicted_class],
 
 fig = plt.figure(dpi=200)
 shap.plots.waterfall(exp[predicted_class], show=False, max_display=15)
-#plt.tight_layout()
+plt.tight_layout()
 col3[2].pyplot(fig, use_container_width=True)
 
 st.markdown(f'''
