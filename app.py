@@ -14,7 +14,9 @@ for font_file in font_files:
     fm.fontManager.addfont(font_file) 
 
 # 设置中文字体支持 - 统一设置字体配置
-#plt.rcParams['font.family'] = 'SimHei'
+plt.rcParams['font.family'] = 'SimHei'
+plt.rcParams['font.sans-serif'] = ['Microsoft YaHei', 'SimHei', 'Arial Unicode MS', 
+                                   'SimSun', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
 with open("XGBoost.pkl", "rb") as f:
