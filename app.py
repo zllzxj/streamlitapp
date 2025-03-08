@@ -14,8 +14,8 @@ for font_file in font_files:
     fm.fontManager.addfont(font_file) 
 
 # 设置中文字体支持 - 统一设置字体配置
-plt.rcParams['font.family'] = 'SimHei'
-plt.rcParams['font.sans-serif'] = ['Microsoft YaHei', 'SimHei', 'Arial Unicode MS', 
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'SimHei', 'Arial Unicode MS', 
                                    'SimSun', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
@@ -158,7 +158,7 @@ exp = shap.Explanation(sv.values[:,:,predicted_class],
                   feature_names=predata.columns)
 
 fig = plt.figure(figsize=(6, 9), dpi=200)
-shap.plots.waterfall(exp[predicted_class], show=False, max_display=15, matplotlib=True)
+shap.plots.waterfall(exp[predicted_class], show=False, max_display=15)
 plt.tight_layout()
 col3[2].pyplot(fig, use_container_width=True)
 
