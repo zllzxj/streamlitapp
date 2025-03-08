@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 设置中文字体支持 - 统一设置字体配置
-plt.rcParams['font.family'] = 'Microsoft YaHei'
+plt.rcParams['font.family'] = 'SimHei'
 plt.rcParams['axes.unicode_minus'] = False
 
 with open("XGBoost.pkl", "rb") as f:
