@@ -146,7 +146,7 @@ plt.gca().spines["right"].set_visible(False)
 plt.xticks([])
 for i, j, n in zip(range(0, 15), importance["特征重要性"].tolist()[:15], importance.index.tolist()[:15]):
     plt.text(j, i, " "+n+"->"+str(round(j, 3)), color="#1E88E5")
-col3[1].pyplot(plt.gcf(), use_container_width=True)
+col3[1].pyplot(fig, use_container_width=True)
 
 # 创建瀑布图
 sv = explainer(predata)
