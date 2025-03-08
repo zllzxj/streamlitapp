@@ -6,6 +6,7 @@ import shap
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm 
 
 # 添加字体文件到 Matplotlib 的字体管理器  
 font_files = fm.findSystemFonts(fontpaths=['.'], fontext='ttf')  
