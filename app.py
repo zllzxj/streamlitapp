@@ -142,7 +142,7 @@ features = model.feature_names_in_
 importance = pd.DataFrame({"特征重要性":im})
 importance.index = features
 importance = importance.sort_values(by="特征重要性")
-fig = plt.figure(figsize=(6, 9))
+fig = plt.figure(figsize=(6, 9), dpi=200)
 importance.head(15)["特征重要性"].plot(kind="barh", title="特征重要性(前15个重要特征)", color="#008BFB", ax=plt.gca(), width=0.8)
 plt.gca().spines["top"].set_visible(False)
 plt.gca().spines["bottom"].set_visible(False)
@@ -152,19 +152,17 @@ for i, j, n in zip(range(0, 15), importance["特征重要性"].tolist()[:15], im
     plt.text(j, i, " "+n+"->"+str(round(j, 3)), color="#1E88E5")
 col3[1].pyplot(plt.gcf(), use_container_width=True)
 
-plt.cla()
-plt.clf()
-
 # 创建瀑布图
 sv = explainer(predata)
 exp = shap.Explanation(sv.values[:,:,predicted_class], 
                   sv.base_values[:,predicted_class], 
                   data=predata.values, 
                   feature_names=predata.columns)
-                 
+
+fig = plt.figure(dpi=200)
 shap.plots.waterfall(exp[predicted_class], show=False, max_display=15)
 plt.tight_layout()
-col3[2].pyplot(plt.gcf(), use_container_width=True)
+col3[2].pyplot(fig, use_container_width=True)
 
 st.markdown(f'''
     <div style="font-size: 20px; text-align: center; color: red; top: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; border: 1px solid red; padding: 1rem;">
