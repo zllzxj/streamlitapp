@@ -161,7 +161,7 @@ exp = shap.Explanation(sv.values[:,:,predicted_class],
 
 fig = plt.figure(dpi=200)
 shap.plots.waterfall(exp[predicted_class], show=False, max_display=15)
-plt.tight_layout()
+#plt.tight_layout()
 col3[2].pyplot(fig, use_container_width=True)
 
 st.markdown(f'''
