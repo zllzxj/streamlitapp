@@ -90,15 +90,15 @@ col[2].markdown('''
     </div>''', unsafe_allow_html=True)
 col1 = col[2].columns(5)
 
-data["病程（年）"] = col1[0].number_input("病程(年)", value=18.3, min_value=0.00, step=0.01)
+data["病程（年）"] = col1[0].number_input("病程(年)", value=startdata["病程（年）"], min_value=0, step=1)
 data["特殊部位情况"] = TSBW[col1[1].selectbox("特殊部位", TSBW, index=startdata["过敏史"])]
 data["家族银屑病史"] = BOOL[col1[2].selectbox("家族银屑病史", BOOL, index=startdata["家族银屑病史"])]
 data["皮损进展情况"] = PSQK[col1[3].selectbox("皮损进展情况", PSQK, index=startdata["皮损进展情况"])]
 data["皮损消退速度"] = PSXT[col1[4].selectbox("皮损消退速度", PSXT, index=startdata["皮损消退速度"])]
 
-data["瘙痒评分"] = col1[0].number_input("瘙痒评分(分)", value=startdata["瘙痒评分"], min_value=0.00, step=0.01)
-data["PASI评分"] = col1[1].number_input("PASI评分(分)", value=startdata["PASI评分"], min_value=0.00, step=0.01)
-data["DLQI评分"] = col1[2].number_input("DLQI评分(分)", value=startdata["DLQI评分"], min_value=0.00, step=0.01)
+data["瘙痒评分"] = col1[0].number_input("瘙痒评分(分)", value=startdata["瘙痒评分"]+0.00, min_value=0.00, step=0.01)
+data["PASI评分"] = col1[1].number_input("PASI评分(分)", value=startdata["PASI评分"]+0.00, min_value=0.00, step=0.01)
+data["DLQI评分"] = col1[2].number_input("DLQI评分(分)", value=startdata["DLQI评分"]+0.00, min_value=0.00, step=0.01)
 data["睡眠"] = SMQK[col1[3].selectbox("睡眠情况", SMQK, index=startdata["睡眠"]-1)]
 data["中医证型"] = ZYLX[col1[4].selectbox("中医证型", ZYLX, index=startdata["中医证型"]-1)]
 
@@ -131,15 +131,28 @@ data["补体C3"] = col2[1].number_input("补体C3(g/L)", value=18.3, min_value=0
 data["补体C4"] = col2[2].number_input("补体C4(g/L)", value=18.3, min_value=0.00, step=0.01)
 
 predata = pd.DataFrame([data]) # 将预测数据转换为DataFrame
-predata = predata[columns]
+predata = predata[model.feature_names_in_]
+
+# 测试用
+#predata.iloc[0, :] = [float(i) for i in "0.28	16	6	2	2	0.71	2.14	3.26	0	1	0	0	1	0	0	134	1	1	23	7	36.8	0.15	23.8	3	26.1	27.7	1.89	1.57	2	3	7".split("	")]
 
 with expand1:
     st.dataframe(predata, use_container_width=True, hide_index=True)
 
 explainer = shap.TreeExplainer(model) # 创建SHAP解释器
 shap_values = explainer.shap_values(predata) # 计算SHAP值
-predicted_class = np.argmax([np.sum(sv) + explainer.expected_value[i] for i, sv in enumerate(shap_values)]) # 获取预测的类别
-predicted_label = class_labels[predicted_class]
+
+expdata = []
+for i in range(7):
+    e = explainer.expected_value[i]
+    expdata.append(e)
+v = shap_values.sum(axis=1).flatten()
+
+predicted_class = 0
+INDEX = []
+for d in list(zip(v, expdata)): # 获取预测的类别 
+    INDEX.append(d[0]-d[1])
+predicted_label = class_labels[np.argmax(INDEX)]
 
 with st.expander("**预测结果&特征重要性**", True):
     st.markdown(f'''
@@ -172,7 +185,7 @@ exp = shap.Explanation(sv.values[:,:,predicted_class],
                   feature_names=predata.columns)
 
 fig = plt.figure(figsize=(6, 9), dpi=200)
-shap.plots.waterfall(exp[predicted_class], show=False, max_display=15)
+shap.plots.waterfall(exp[0], show=False, max_display=15)
 plt.tight_layout()
 col3[2].pyplot(fig, use_container_width=True)
 
