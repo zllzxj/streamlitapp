@@ -121,11 +121,10 @@ data["补体C3"] = col2[1].number_input("补体C3(g/L)", value=18.3, min_value=0
 data["补体C4"] = col2[2].number_input("补体C4(g/L)", value=18.3, min_value=0.00, step=0.01)
 
 predata = pd.DataFrame([data]) # 将预测数据转换为DataFrame
+predata = predata[columns]
 
 with expand1:
     st.dataframe(predata, use_container_width=True, hide_index=True)
-
-st.write(predata.shape)
 
 explainer = shap.TreeExplainer(model) # 创建SHAP解释器
 shap_values = explainer.shap_values(predata) # 计算SHAP值
