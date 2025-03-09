@@ -21,7 +21,17 @@ plt.rcParams['axes.unicode_minus'] = False
 
 with open("XGBoost.pkl", "rb") as f:
     model = joblib.load(f)
-    
+
+startdata = {
+    'D二聚体': 0.36, 'PASI评分': 13, '病程（年）': 1, '皮损消退速度': 3, '皮损进展情况': 3,
+    '补体C3': 0.72, '钙': 2.44, '钾': 3.83, '吸烟史': 0, '家族银屑病史': 0,
+    '既往是否规律治疗': 1, '是否使用生物制剂治疗': 0, '是否口服中药治疗': 0, '是否外用中药治疗': 1, 
+    '特殊部位情况': 5, '血红蛋白': 134, '过敏体质': 0, '过敏史': 0, 'DLQI评分': 18, 
+    '瘙痒评分': 7, '白蛋白': 40.9, '补体C4': 0.15, 'BMI指数': 18.3, '中性粒细胞数': 2.44, 
+    '总二氧化碳': 21.8, '总免疫球蛋白E': 18.3, '甘油三酯': 1.14, '全血C反应蛋白': 0.2, 
+    '睡眠': 1, '中医证型': 1, '体质分类': 6
+}
+
 # 创建分类标签映射
 class_labels = ['初次发作', '即愈型', '缓愈型', '间歇发作型', 
                 '频发局限型', '频发泛发稀疏型', '频发泛发重型']
@@ -69,7 +79,7 @@ col[0].markdown('''
     <div style="font-size: 20px; text-align: center; color: black;  border-bottom: 3px solid blue; margin-bottom: 1rem;">
     个人情况
     </div>''', unsafe_allow_html=True)
-data["吸烟史"] = SMOKE[col[0].selectbox("吸烟史", SMOKE, help=SMOKE_tooltip)]
+data["吸烟史"] = SMOKE[col[0].selectbox("吸烟史", SMOKE, help=SMOKE_tooltip, value=startdata["吸烟史"])]
 data["过敏体质"] = BOOL[col[0].selectbox("是否过敏体质", BOOL)]
 data["过敏史"] = BOOL[col[0].selectbox("是否存在过敏史", BOOL)]
 data["BMI指数"] = col[0].number_input("BMI指数$(kg/m^2)$", value=18.3, min_value=0.00, step=0.01)
