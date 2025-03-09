@@ -96,9 +96,9 @@ data["家族银屑病史"] = BOOL[col1[2].selectbox("家族银屑病史", BOOL, 
 data["皮损进展情况"] = PSQK[col1[3].selectbox("皮损进展情况", PSQK, index=startdata["皮损进展情况"])]
 data["皮损消退速度"] = PSXT[col1[4].selectbox("皮损消退速度", PSXT, index=startdata["皮损消退速度"])]
 
-data["瘙痒评分"] = col1[0].number_input("瘙痒评分(分)", value=startdata["瘙痒评分"]+0.00, min_value=0.00, step=0.01)
-data["PASI评分"] = col1[1].number_input("PASI评分(分)", value=startdata["PASI评分"]+0.00, min_value=0.00, step=0.01)
-data["DLQI评分"] = col1[2].number_input("DLQI评分(分)", value=startdata["DLQI评分"]+0.00, min_value=0.00, step=0.01)
+data["瘙痒评分"] = col1[0].number_input("瘙痒评分(分)", value=float(startdata["瘙痒评分"]), min_value=0.00, step=0.01)
+data["PASI评分"] = col1[1].number_input("PASI评分(分)", value=float(startdata["PASI评分"]), min_value=0.00, step=0.01)
+data["DLQI评分"] = col1[2].number_input("DLQI评分(分)", value=float(startdata["DLQI评分"]), min_value=0.00, step=0.01)
 data["睡眠"] = SMQK[col1[3].selectbox("睡眠情况", SMQK, index=startdata["睡眠"]-1)]
 data["中医证型"] = ZYLX[col1[4].selectbox("中医证型", ZYLX, index=startdata["中医证型"]-1)]
 
