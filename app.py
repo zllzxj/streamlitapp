@@ -96,7 +96,7 @@ data["既往是否规律治疗"] = BOOL[col1[0].selectbox("既往是否规律治
 data["是否使用生物制剂治疗"] = BOOL[col1[1].selectbox("是否生物制剂治疗", BOOL)]
 data["是否口服中药治疗"] = BOOL[col1[2].selectbox("是否口服中药治疗", BOOL)]
 data["是否外用中药治疗"] = BOOL[col1[3].selectbox("是否外用中药治疗", BOOL)]
-data["中医体质类型"] = ZYTZ[col1[4].selectbox("中医体质类型", ZYTZ)]
+data["体质分类"] = ZYTZ[col1[4].selectbox("中医体质类型", ZYTZ)]
 
 col[1].markdown('''
     <div style="font-size: 20px; text-align: center; color: black; border-bottom: 3px solid red; margin-bottom: 1rem;">
