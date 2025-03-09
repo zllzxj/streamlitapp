@@ -79,10 +79,10 @@ col[0].markdown('''
     <div style="font-size: 20px; text-align: center; color: black;  border-bottom: 3px solid blue; margin-bottom: 1rem;">
     个人情况
     </div>''', unsafe_allow_html=True)
-data["吸烟史"] = SMOKE[col[0].selectbox("吸烟史", SMOKE, help=SMOKE_tooltip, value=startdata["吸烟史"])]
-data["过敏体质"] = BOOL[col[0].selectbox("是否过敏体质", BOOL)]
-data["过敏史"] = BOOL[col[0].selectbox("是否存在过敏史", BOOL)]
-data["BMI指数"] = col[0].number_input("BMI指数$(kg/m^2)$", value=18.3, min_value=0.00, step=0.01)
+data["吸烟史"] = SMOKE[col[0].selectbox("吸烟史", SMOKE, help=SMOKE_tooltip, index=startdata["吸烟史"])]
+data["过敏体质"] = BOOL[col[0].selectbox("是否过敏体质", BOOL, index=startdata["过敏体质"])]
+data["过敏史"] = BOOL[col[0].selectbox("是否存在过敏史", BOOL, index=startdata["过敏史"])]
+data["BMI指数"] = col[0].number_input("BMI指数$(kg/m^2)$", value=startdata["BMI指数"], min_value=0.00, step=0.01)
 
 col[2].markdown('''
     <div style="font-size: 20px; text-align: center; color: black;  border-bottom: 3px solid green; margin-bottom: 1rem;">
@@ -91,22 +91,22 @@ col[2].markdown('''
 col1 = col[2].columns(5)
 
 data["病程（年）"] = col1[0].number_input("病程(年)", value=18.3, min_value=0.00, step=0.01)
-data["特殊部位情况"] = TSBW[col1[1].selectbox("特殊部位", TSBW)]
-data["家族银屑病史"] = BOOL[col1[2].selectbox("家族银屑病史", BOOL)]
-data["皮损进展情况"] = PSQK[col1[3].selectbox("皮损进展情况", PSQK)]
-data["皮损消退速度"] = PSXT[col1[4].selectbox("皮损消退速度", PSXT)]
+data["特殊部位情况"] = TSBW[col1[1].selectbox("特殊部位", TSBW, index=startdata["过敏史"])]
+data["家族银屑病史"] = BOOL[col1[2].selectbox("家族银屑病史", BOOL, index=startdata["家族银屑病史"])]
+data["皮损进展情况"] = PSQK[col1[3].selectbox("皮损进展情况", PSQK, index=startdata["皮损进展情况"])]
+data["皮损消退速度"] = PSXT[col1[4].selectbox("皮损消退速度", PSXT, index=startdata["皮损消退速度"])]
 
-data["瘙痒评分"] = col1[0].number_input("瘙痒评分(分)", value=18.3, min_value=0.00, step=0.01)
-data["PASI评分"] = col1[1].number_input("PASI评分(分)", value=18.3, min_value=0.00, step=0.01)
-data["DLQI评分"] = col1[2].number_input("DLQI评分(分)", value=18.3, min_value=0.00, step=0.01)
-data["睡眠"] = SMQK[col1[3].selectbox("睡眠情况", SMQK)]
-data["中医证型"] = ZYLX[col1[4].selectbox("中医证型", ZYLX)]
+data["瘙痒评分"] = col1[0].number_input("瘙痒评分(分)", value=startdata["瘙痒评分"], min_value=0.00, step=0.01)
+data["PASI评分"] = col1[1].number_input("PASI评分(分)", value=startdata["PASI评分"], min_value=0.00, step=0.01)
+data["DLQI评分"] = col1[2].number_input("DLQI评分(分)", value=startdata["DLQI评分"], min_value=0.00, step=0.01)
+data["睡眠"] = SMQK[col1[3].selectbox("睡眠情况", SMQK, index=startdata["睡眠"]-1)]
+data["中医证型"] = ZYLX[col1[4].selectbox("中医证型", ZYLX, index=startdata["中医证型"]-1)]
 
-data["既往是否规律治疗"] = BOOL[col1[0].selectbox("既往是否规律治疗", BOOL)]
-data["是否使用生物制剂治疗"] = BOOL[col1[1].selectbox("是否生物制剂治疗", BOOL)]
-data["是否口服中药治疗"] = BOOL[col1[2].selectbox("是否口服中药治疗", BOOL)]
-data["是否外用中药治疗"] = BOOL[col1[3].selectbox("是否外用中药治疗", BOOL)]
-data["体质分类"] = ZYTZ[col1[4].selectbox("中医体质类型", ZYTZ)]
+data["既往是否规律治疗"] = BOOL[col1[0].selectbox("既往是否规律治疗", BOOL, index=startdata["既往是否规律治疗"])]
+data["是否使用生物制剂治疗"] = BOOL[col1[1].selectbox("是否生物制剂治疗", BOOL, index=startdata["是否使用生物制剂治疗"])]
+data["是否口服中药治疗"] = BOOL[col1[2].selectbox("是否口服中药治疗", BOOL, index=startdata["是否口服中药治疗"])]
+data["是否外用中药治疗"] = BOOL[col1[3].selectbox("是否外用中药治疗", BOOL, index=startdata["是否外用中药治疗"])]
+data["体质分类"] = ZYTZ[col1[4].selectbox("中医体质类型", ZYTZ, index=startdata["体质分类"]-1)]
 
 col[1].markdown('''
     <div style="font-size: 20px; text-align: center; color: black; border-bottom: 3px solid red; margin-bottom: 1rem;">
