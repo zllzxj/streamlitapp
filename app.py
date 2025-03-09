@@ -73,7 +73,10 @@ data = {}
 
 expand1 = st.expander("**预测参数输入**", True)
 with expand1:
-    col = st.columns([1, 3, 5])
+    with st.form("inputdata"):
+        col = st.columns([1, 3, 5])
+        colb = st.columns(7)
+        prebutton = colb[3].form_submit_button("开始预测", use_container_width=True)
 
 col[0].markdown('''
     <div style="font-size: 20px; text-align: center; color: black;  border-bottom: 3px solid blue; margin-bottom: 1rem;">
@@ -139,57 +142,63 @@ predata = predata[model.feature_names_in_]
 with expand1:
     st.dataframe(predata, use_container_width=True, hide_index=True)
 
-explainer = shap.TreeExplainer(model) # 创建SHAP解释器
-shap_values = explainer.shap_values(predata) # 计算SHAP值
+if prebutton:
+    explainer = shap.TreeExplainer(model) # 创建SHAP解释器
+    shap_values = explainer.shap_values(predata) # 计算SHAP值
 
-expdata = []
-for i in range(7):
-    e = explainer.expected_value[i]
-    expdata.append(e)
-v = shap_values.sum(axis=1).flatten()
+    expdata = []
+    for i in range(7):
+        e = explainer.expected_value[i]
+        expdata.append(e)
+    v = shap_values.sum(axis=1).flatten()
 
-predicted_class = 0
-INDEX = []
-for d in list(zip(v, expdata)): # 获取预测的类别 
-    INDEX.append(d[0]-d[1])
-predicted_label = class_labels[np.argmax(INDEX)]
+    predicted_class = 0
+    INDEX = []
+    for d in list(zip(v, expdata)): # 获取预测的类别 
+        INDEX.append(d[0]-d[1])
+    predicted_label = class_labels[np.argmax(INDEX)]
 
-with st.expander("**预测结果&特征重要性**", True):
+    with st.expander("**预测结果&特征重要性**", True):
+        st.markdown(f'''
+            <div style="font-size: 20px; text-align: center; color: black; top: 1rem; border-bottom: 3px solid black; margin-bottom: 1rem;">
+            当前预测结果：{predicted_label}
+            </div>''', unsafe_allow_html=True)
+
+        col3 = st.columns([1, 3, 3, 1])
+
+    im = model.feature_importances_
+    features = model.feature_names_in_
+    importance = pd.DataFrame({"特征重要性":im})
+    importance.index = features
+    importance = importance.sort_values(by="特征重要性")
+    fig = plt.figure(figsize=(6, 9), dpi=200)
+    importance.head(15)["特征重要性"].plot(kind="barh", title="特征重要性(前15个重要特征)", color="#008BFB", ax=plt.gca(), width=0.8)
+    plt.gca().spines["top"].set_visible(False)
+    plt.gca().spines["bottom"].set_visible(False)
+    plt.gca().spines["right"].set_visible(False)
+    plt.xticks([])
+    for i, j, n in zip(range(0, 15), importance["特征重要性"].tolist()[:15], importance.index.tolist()[:15]):
+        plt.text(j, i, " "+n+"->"+str(round(j, 3)), color="#1E88E5")
+    col3[1].pyplot(fig, use_container_width=True)
+
+    # 创建瀑布图
+    sv = explainer(predata)
+    exp = shap.Explanation(sv.values[:,:,predicted_class], 
+                      sv.base_values[:,predicted_class], 
+                      data=predata.values, 
+                      feature_names=predata.columns)
+
+    fig = plt.figure(figsize=(6, 9), dpi=200)
+    shap.plots.waterfall(exp[0], show=False, max_display=15)
+    plt.tight_layout()
+    col3[2].pyplot(fig, use_container_width=True)
+
     st.markdown(f'''
-        <div style="font-size: 20px; text-align: center; color: black; top: 1rem; border-bottom: 3px solid black; margin-bottom: 1rem;">
-        当前预测结果：{predicted_label}
+        <div style="font-size: 20px; text-align: center; color: red; top: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; border: 1px solid red; padding: 1rem;">
+        <span style="font-weight: bold;">温馨提示：</span>结果仅供临床参考，详情请咨询医师！！！
         </div>''', unsafe_allow_html=True)
-
-    col3 = st.columns([1, 3, 3, 1])
-
-im = model.feature_importances_
-features = model.feature_names_in_
-importance = pd.DataFrame({"特征重要性":im})
-importance.index = features
-importance = importance.sort_values(by="特征重要性")
-fig = plt.figure(figsize=(6, 9), dpi=200)
-importance.head(15)["特征重要性"].plot(kind="barh", title="特征重要性(前15个重要特征)", color="#008BFB", ax=plt.gca(), width=0.8)
-plt.gca().spines["top"].set_visible(False)
-plt.gca().spines["bottom"].set_visible(False)
-plt.gca().spines["right"].set_visible(False)
-plt.xticks([])
-for i, j, n in zip(range(0, 15), importance["特征重要性"].tolist()[:15], importance.index.tolist()[:15]):
-    plt.text(j, i, " "+n+"->"+str(round(j, 3)), color="#1E88E5")
-col3[1].pyplot(fig, use_container_width=True)
-
-# 创建瀑布图
-sv = explainer(predata)
-exp = shap.Explanation(sv.values[:,:,predicted_class], 
-                  sv.base_values[:,predicted_class], 
-                  data=predata.values, 
-                  feature_names=predata.columns)
-
-fig = plt.figure(figsize=(6, 9), dpi=200)
-shap.plots.waterfall(exp[0], show=False, max_display=15)
-plt.tight_layout()
-col3[2].pyplot(fig, use_container_width=True)
-
-st.markdown(f'''
-    <div style="font-size: 20px; text-align: center; color: red; top: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; border: 1px solid red; padding: 1rem;">
-    <span style="font-weight: bold;">温馨提示：</span>结果仅供临床参考，详情请咨询医师！！！
-    </div>''', unsafe_allow_html=True)
+else:
+    st.markdown(f'''
+        <div style="font-size: 20px; text-align: center; color: red; top: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; border: 1px solid red; padding: 1rem;">
+        <span style="font-weight: bold;">点击“开始预测按钮”进行预测！！！
+        </div>''', unsafe_allow_html=True)
