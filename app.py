@@ -122,6 +122,8 @@ predata = pd.DataFrame([data]) # 将预测数据转换为DataFrame
 with expand1:
     st.dataframe(predata, use_container_width=True, hide_index=True)
 
+predata = predata[features]
+
 explainer = shap.TreeExplainer(model) # 创建SHAP解释器
 shap_values = explainer.shap_values(predata) # 计算SHAP值
 predicted_class = np.argmax([np.sum(sv) + explainer.expected_value[i] for i, sv in enumerate(shap_values)]) # 获取预测的类别
