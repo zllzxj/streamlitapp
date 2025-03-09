@@ -48,8 +48,7 @@ st.set_page_config(
 st.markdown('''
     <style>
         [data-testid="block-container"] {
-            padding-top: 36px;
-            padding-bottom: 36px;
+            padding: 36px;
         }
     </style>''', unsafe_allow_html=True)
 
