@@ -25,6 +25,9 @@ with open("XGBoost.pkl", "rb") as f:
 # 创建分类标签映射
 class_labels = ['初次发作', '即愈型', '缓愈型', '间歇发作型', 
                 '频发局限型', '频发泛发稀疏型', '频发泛发重型']
+columns = ['D二聚体', 'PASI评分', '病程（年）', '皮损消退速度', '皮损进展情况', '补体C3', '钙', '钾', '吸烟史', '家族银屑病史', 
+           '既往是否规律治疗', '是否使用生物制剂治疗', '是否口服中药治疗', '是否外用中药治疗', '特殊部位情况', '血红蛋白', '过敏体质', '过敏史', 'DLQI评分', 
+           '瘙痒评分', '白蛋白', '补体C4', 'BMI指数', '中性粒细胞数', '总二氧化碳', '总免疫球蛋白E', '甘油三酯', '全血C反应蛋白', '睡眠', '中医证型', '体质分类']
 
 st.set_page_config(    
     page_title="寻常型银屑病患者发作类型倾向预测系统",
@@ -122,7 +125,7 @@ predata = pd.DataFrame([data]) # 将预测数据转换为DataFrame
 with expand1:
     st.dataframe(predata, use_container_width=True, hide_index=True)
 
-predata = predata[list(features)]
+predata = predata[columns]
 
 explainer = shap.TreeExplainer(model) # 创建SHAP解释器
 shap_values = explainer.shap_values(predata) # 计算SHAP值
